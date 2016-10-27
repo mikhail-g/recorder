@@ -75,7 +75,7 @@ public class Configurator {
 
     private static int getRecordNumber() {
         File[] files = ofNullable(getOutputFolder().listFiles()).orElse(getEmptyFileArray());
-        return Arrays.stream(files)
+        Integer lastIndex = Arrays.stream(files)
                 .filter(file -> file.getName().contains(getDateString()))
                 .sorted((file1, file2) -> file2.getName().compareTo(file1.getName()))
                 .findFirst()
@@ -83,7 +83,8 @@ public class Configurator {
                         file3.getName().substring(file3.getName()
                                 .lastIndexOf(FILE_NAME_SEPARATOR) + 1)
                                 .split(EXTENSION_SPLITTER)[0]))
-                .orElseGet(() -> 0) + 1;
+                .orElseGet(() -> 0);
+        return lastIndex + 1;
     }
 
     private static String getDateString() {
