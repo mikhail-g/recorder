@@ -1,4 +1,4 @@
-import recorder.JavaSoundRecorder;
+import recorder.sound.JavaSoundRecorder;
 
 import java.util.Scanner;
 
