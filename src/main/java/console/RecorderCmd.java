@@ -10,7 +10,7 @@ import java.util.Scanner;
  * <p>
  * Created by Mykhailo on 22.09.16.
  */
-public class ConsoleApp {
+public class RecorderCmd {
 
     private static final String RECORD = "record";
     private static final String STOP = "stop";

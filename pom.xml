@@ -68,7 +68,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>console.ConsoleApp</mainClass>
+                                    <mainClass>console.RecorderCmd</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -94,7 +94,7 @@
                             </jar>
                             <outfile>${project.build.directory}/${project.artifactId}-cmd.exe</outfile>
                             <classPath>
-                                <mainClass>console.ConsoleApp</mainClass>
+                                <mainClass>console.RecorderCmd</mainClass>
                             </classPath>
                             <icon>src/main/resources/recorder.ico</icon>
                             <jre>
