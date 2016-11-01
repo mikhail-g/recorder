@@ -91,7 +91,7 @@
                             <jar>
                                 ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
                             </jar>
-                            <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
+                            <outfile>app/${project.artifactId}.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>recorder.Main</mainClass>
