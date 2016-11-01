@@ -68,7 +68,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>recorder.Main</mainClass>
+                                    <mainClass>console.ConsoleApp</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -94,7 +94,7 @@
                             </jar>
                             <outfile>${project.build.directory}/${project.artifactId}-cmd.exe</outfile>
                             <classPath>
-                                <mainClass>recorder.Main</mainClass>
+                                <mainClass>console.ConsoleApp</mainClass>
                             </classPath>
                             <icon>src/main/resources/recorder.ico</icon>
                             <jre>
@@ -129,7 +129,7 @@
                             </jar>
                             <outfile>${project.build.directory}/${project.artifactId}-gui.exe</outfile>
                             <classPath>
-                                <mainClass>ui.RecorderGui</mainClass>
+                                <mainClass>gui.RecorderGui</mainClass>
                             </classPath>
                             <icon>src/main/resources/recorder.ico</icon>
                             <jre>
@@ -155,6 +155,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

@@ -1,27 +1,39 @@
-package ui;
+package gui;
 
-import recorder.CommandApi;
+import recorder.Recorder;
+import recorder.RecorderImpl;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Main class for recorder gui application
+ * <p>
+ * Created by Mykhailo on 22.09.16.
+ */
 public class RecorderGui {
 
-    public static final String TITLE = "HOT Recorder";
-    public static final int FRAME_WIDTH = 300;
-    public static final int FRAME_HEIGHT = 150;
+    public static final String PLAYLIST_BUTTON_TEXT = "recorded files";
+    public static final String RECORD_BUTTON_TEXT = "record";
+    public static final String STOP_BUTTON_TEXT = "stop";
+    private static final String TITLE = "HOT Recorder";
+    private static final int FRAME_WIDTH = 300;
+    private static final int FRAME_HEIGHT = 150;
+    private static Recorder recorder;
 
     public RecorderGui() {
 
         JFrame guiFrame = initFrame();
-        CommandApi.getCommandInit().execute();
+        recorder = RecorderImpl.getInstance();
+        recorder.init();
 
         final JPanel recorderPanel = getRecorderPanel();
         final JPanel playListPanel = getPlayListPanel();
 
 
-        JButton vegFruitBut = new JButton("Fruit or Veg");
-        vegFruitBut.addActionListener(event -> {
+        JButton playListButton = new JButton(PLAYLIST_BUTTON_TEXT);
+        playListButton.setVisible(false);
+        playListButton.addActionListener(event -> {
                     playListPanel.setVisible(!playListPanel.isVisible());
                     recorderPanel.setVisible(!recorderPanel.isVisible());
                 }
@@ -30,7 +42,7 @@ public class RecorderGui {
         // Put the two JPanels and JButton in different areas.
         guiFrame.add(recorderPanel, BorderLayout.NORTH);
         guiFrame.add(playListPanel, BorderLayout.CENTER);
-        guiFrame.add(vegFruitBut, BorderLayout.SOUTH);
+        guiFrame.add(playListButton, BorderLayout.SOUTH);
         //make sure the JFrame is visible
         guiFrame.setVisible(true);
     }
@@ -54,20 +66,20 @@ public class RecorderGui {
     private JPanel getRecorderPanel() {
         final JPanel recorderPanel = new JPanel();
         JLabel comboLbl = new JLabel("Let the sound begin:");
-        JButton record = new JButton("record");
-        record.addActionListener(event -> CommandApi.getCommandRecord().execute());
-        JButton stop = new JButton("stop");
-        stop.addActionListener(event -> CommandApi.getCommandStop().execute());
+        JButton recordButton = new JButton(RECORD_BUTTON_TEXT);
+        recordButton.addActionListener(event -> recorder.record());
+        JButton stopButton = new JButton(STOP_BUTTON_TEXT);
+        stopButton.addActionListener(event -> recorder.stop());
         recorderPanel.add(comboLbl);
-        recorderPanel.add(record);
-        recorderPanel.add(stop);
+        recorderPanel.add(recordButton);
+        recorderPanel.add(stopButton);
         return recorderPanel;
     }
 
     private JPanel getPlayListPanel() {
         final JPanel playListPanel = new JPanel();
         playListPanel.setVisible(false);
-        JLabel listLbl = new JLabel("Vegetables:");
+        JLabel listLbl = new JLabel("Records list:");
         String[] audioFiles = {};
         JList audioFilesList = new JList(audioFiles);
         audioFilesList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
