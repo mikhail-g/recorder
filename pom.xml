@@ -8,6 +8,7 @@
     <artifactId>recorder</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <description>Simple audio recorder</description>
 
     <properties>
         <company.name>HotMusic.com</company.name>
@@ -81,7 +82,7 @@
                 <version>1.7.12</version>
                 <executions>
                     <execution>
-                        <id>l4j</id>
+                        <id>l4j-cmd</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
@@ -91,11 +92,9 @@
                             <jar>
                                 ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
                             </jar>
-                            <outfile>app/${project.artifactId}.exe</outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <outfile>${project.build.directory}/${project.artifactId}-cmd.exe</outfile>
                             <classPath>
                                 <mainClass>recorder.Main</mainClass>
-                                <preCp>anything</preCp>
                             </classPath>
                             <icon>src/main/resources/recorder.ico</icon>
                             <jre>
@@ -105,7 +104,42 @@
                             <versionInfo>
                                 <fileVersion>${file.version}</fileVersion>
                                 <txtFileVersion>${file.version}</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
+                                <fileDescription>${project.description}</fileDescription>
+                                <copyright>2016 ${company.name}</copyright>
+                                <productVersion>${product.version}</productVersion>
+                                <txtProductVersion>${product.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>${company.name}</companyName>
+                                <internalName>${project.name}</internalName>
+                                <originalFilename>${project.name}.exe</originalFilename>
+                                <language>ENGLISH_US</language>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>
+                                ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
+                            </jar>
+                            <outfile>${project.build.directory}/${project.artifactId}-gui.exe</outfile>
+                            <classPath>
+                                <mainClass>ui.RecorderGui</mainClass>
+                            </classPath>
+                            <icon>src/main/resources/recorder.ico</icon>
+                            <jre>
+                                <minVersion>1.6.0</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>${file.version}</fileVersion>
+                                <txtFileVersion>${file.version}</txtFileVersion>
+                                <fileDescription>${project.description}</fileDescription>
                                 <copyright>2016 ${company.name}</copyright>
                                 <productVersion>${product.version}</productVersion>
                                 <txtProductVersion>${product.version}</txtProductVersion>
