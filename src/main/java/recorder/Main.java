@@ -1,8 +1,8 @@
 package recorder;
 
-import recorder.sound.JavaSoundRecorder;
-
 import java.util.Scanner;
+
+import static recorder.CommandApi.*;
 
 /**
  * Main class of recorder app
@@ -17,33 +17,8 @@ public class Main {
     public static final String RECORD_SHORT = "r";
     public static final String STOP_SHORT = "s";
     public static final String QUITE_SHORT = "q";
-    public static final String RECORDING_THREAD = "recording";
 
-    static JavaSoundRecorder recorder;
-    private static Thread recording;
 
-    public static Command getCommandInit() {
-        return () -> recorder = new JavaSoundRecorder();
-    }
-
-    public static Command getCommandRecord() {
-        return () -> {
-            recording = new Thread(recorder, RECORDING_THREAD);
-            recording.start();
-        };
-    }
-
-    public static Command getCommandStop() {
-        return recorder::finish;
-    }
-
-    public static Command getCommandQuite() {
-        return () -> {
-            System.out.println("Bye-bye!");
-            recording = null;
-            System.exit(0);
-        };
-    }
 
     public static void main(String[] args) {
         getCommandInit().execute();
