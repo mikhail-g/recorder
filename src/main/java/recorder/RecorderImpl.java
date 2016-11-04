@@ -1,5 +1,7 @@
 package recorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import recorder.sound.JavaSoundRecorder;
 
 /**
@@ -8,8 +10,9 @@ import recorder.sound.JavaSoundRecorder;
  * Created by Mykhailo on 002 02.11.16.
  */
 public class RecorderImpl implements Recorder {
-    public static final String RECORDING_THREAD = "recording";
 
+    public static final String RECORDING_THREAD = "recording";
+    private static final Logger log = LoggerFactory.getLogger(RecorderImpl.class);
     static JavaSoundRecorder recorder;
     private static Thread recording;
     private static Status status = Status.READY;
@@ -40,7 +43,7 @@ public class RecorderImpl implements Recorder {
 
     @Override
     public void quit() {
-        System.out.println("Bye-bye!");
+        log.info("Bye-bye!");
         recording = null;
         System.exit(0);
     }

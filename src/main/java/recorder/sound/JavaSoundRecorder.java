@@ -1,5 +1,7 @@
 package recorder.sound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import recorder.config.Configurator;
 
 import javax.sound.sampled.*;
@@ -13,6 +15,7 @@ import java.net.URISyntaxException;
  */
 public class JavaSoundRecorder implements Runnable {
 
+    private static final Logger log = LoggerFactory.getLogger(JavaSoundRecorder.class);
     private TargetDataLine inputLine;
 
     public JavaSoundRecorder() {
@@ -31,7 +34,7 @@ public class JavaSoundRecorder implements Runnable {
 
     private static void checkLineSupported(DataLine.Info info) {
         if (!AudioSystem.isLineSupported(info)) {
-            System.out.println("Line not supported");
+            log.error("Line not supported");
             System.exit(0);
         }
     }
@@ -51,7 +54,7 @@ public class JavaSoundRecorder implements Runnable {
     public void finish() {
         inputLine.stop();
         inputLine.close();
-        System.out.println("Finished");
+        log.debug("Finished");
     }
 
     public boolean isLineAvailable() {
@@ -60,14 +63,14 @@ public class JavaSoundRecorder implements Runnable {
 
     private void startCapturing(TargetDataLine targetDataLine, AudioFormat audioFormat) throws LineUnavailableException {
         targetDataLine.open(audioFormat);
-        System.out.println("Start capturing...");
+        log.debug("Start capturing...");
         targetDataLine.start();
     }
 
     private void startRecording(TargetDataLine targetDataLine, AudioFileFormat.Type fileType, File outputFile)
             throws IOException, URISyntaxException {
         AudioInputStream ais = new AudioInputStream(targetDataLine);
-        System.out.println("Start recording...");
+        log.debug("Start recording...");
         AudioSystem.write(ais, fileType, outputFile);
     }
 }

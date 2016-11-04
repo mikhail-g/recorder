@@ -1,5 +1,7 @@
 package gui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import recorder.Recorder;
 import recorder.RecorderImpl;
 
@@ -16,6 +18,7 @@ public class RecorderGui {
     public static final String PLAYLIST_BUTTON_TEXT = "recorded files";
     public static final String RECORD_BUTTON_TEXT = "record";
     public static final String STOP_BUTTON_TEXT = "stop";
+    private static final Logger log = LoggerFactory.getLogger(RecorderGui.class);
     private static final String TITLE = "HOT Recorder";
     private static final int FRAME_WIDTH = 300;
     private static final int FRAME_HEIGHT = 150;

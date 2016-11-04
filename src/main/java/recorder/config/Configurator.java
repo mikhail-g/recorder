@@ -2,6 +2,8 @@ package recorder.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
@@ -36,9 +38,7 @@ public class Configurator {
     public static final String FILE_NAME_SEPARATOR = "_";
     public static final String RECORD_NUMBER_FORMAT = "%03d";
     public static final String FILE_NAME_NUMBER_BASE = "name_19891231_000";
-    @Deprecated
-    public static final String FILE_NAME_MASK = "%s%4$c%s%4$c%03d";
-
+    private static final Logger log = LoggerFactory.getLogger(Configurator.class);
     private static Config conf = ConfigFactory.load();
     private static Config outputFileConfig = conf.getConfig(OUTPUT_FILE_PROP_PATH);
 
@@ -51,7 +51,7 @@ public class Configurator {
         File dir = new File(outputFileConfig.getString(PATH_PROP));
         if (!dir.exists()) {
             boolean isOutputDirCreated = dir.mkdirs();
-            System.out.println("isOutputDirCreated = " + isOutputDirCreated);
+            log.debug("isOutputDirCreated = {}", isOutputDirCreated);
         }
         return dir;
     }
@@ -69,7 +69,7 @@ public class Configurator {
         String timestamp = getDateString();
         String number = String.format(RECORD_NUMBER_FORMAT, getRecordNumber());
         String outputFileName = String.join(FILE_NAME_SEPARATOR, name, timestamp, number);
-        System.out.println("outputFileName = " + outputFileName);
+        log.debug("outputFileName = {}", outputFileName);
         return outputFileName;
     }
 

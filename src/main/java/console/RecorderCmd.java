@@ -1,5 +1,7 @@
 package console;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import recorder.Recorder;
 import recorder.RecorderImpl;
 
@@ -12,6 +14,7 @@ import java.util.Scanner;
  */
 public class RecorderCmd {
 
+    private static final Logger log = LoggerFactory.getLogger(RecorderCmd.class);
     private static final String RECORD = "record";
     private static final String STOP = "stop";
     private static final String QUITE = "quite";
@@ -26,11 +29,11 @@ public class RecorderCmd {
     public static void main(String[] args) {
         recorder = RecorderImpl.getInstance();
         recorder.init();
-        System.out.println(WELCOME_MESSAGE);
-        System.out.println(HELP_MESSAGE);
+        log.info(WELCOME_MESSAGE);
+        log.info(HELP_MESSAGE);
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println(recorder.getStatus().getMessage());
+            log.info(recorder.getStatus().getMessage());
             performAction(sc.nextLine());
         }
     }
@@ -49,7 +52,7 @@ public class RecorderCmd {
             case QUITE_SHORT:
                 recorder.quit();
             default:
-                System.out.println(UNKNOWN_COMMAND);
+                log.info(UNKNOWN_COMMAND);
                 break;
         }
     }
