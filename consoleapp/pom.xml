@@ -10,9 +10,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>gui_app</artifactId>
-    <name>Recorder GUI Application</name>
+    <artifactId>consoleapp</artifactId>
     <packaging>jar</packaging>
+    <name>Recorder Console Application</name>
 
     <properties>
         <file.version>1.0.0.0</file.version>
@@ -21,7 +21,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>home.guitar.recorder</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -43,32 +43,32 @@
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
             <resource>
-                <directory>${project.build.directory}/generated_resources</directory>
+                <directory>${project.build.directory}/generated-resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-shared-resources</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/generated_resources</outputDirectory>
-                            <includeArtifactIds>shared_resources</includeArtifactIds>
-                            <includeGroupIds>${project.groupId}</includeGroupIds>
-                            <excludeTransitive>true</excludeTransitive>
-                            <!--use as much as needed to be specific...also scope,type,classifier etc-->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-dependency-plugin</artifactId>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>unpack-shared-resources</id>-->
+            <!--<goals>-->
+            <!--<goal>unpack-dependencies</goal>-->
+            <!--</goals>-->
+            <!--<phase>generate-resources</phase>-->
+            <!--<configuration>-->
+            <!--<outputDirectory>${project.build.directory}/generated-resources</outputDirectory>-->
+            <!--<includeArtifactIds>shared_resources</includeArtifactIds>-->
+            <!--<includeGroupIds>${project.groupId}</includeGroupIds>-->
+            <!--<excludeTransitive>true</excludeTransitive>-->
+            <!--&lt;!&ndash;use as much as needed to be specific...also scope,type,classifier etc&ndash;&gt;-->
+            <!--</configuration>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -86,7 +86,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>home.guitar.recorder.console.gui.RecorderGui</mainClass>
+                                    <mainClass>home.guitar.recorder.console.RecorderCmd</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
@@ -100,21 +100,21 @@
                 <version>1.7.12</version>
                 <executions>
                     <execution>
-                        <id>l4j-gui</id>
+                        <id>l4j-cmd</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <headerType>gui</headerType>
+                            <headerType>console</headerType>
                             <jar>
-                                ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
+                                ${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar
                             </jar>
                             <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
                             <classPath>
-                                <mainClass>home.guitar.recorder.gui.RecorderGui</mainClass>
+                                <mainClass>home.guitar.recorder.console.RecorderCmd</mainClass>
                             </classPath>
-                            <icon>${project.build.directory}/classes/recorder.ico</icon>
+                            <icon>${project.build.outputDirectory}/recorder.ico</icon>
                             <jre>
                                 <minVersion>1.6.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
