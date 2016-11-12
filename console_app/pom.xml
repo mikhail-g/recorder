@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gui_app</artifactId>
+    <artifactId>console_app</artifactId>
 
     <dependencies>
         <dependency>
@@ -27,19 +27,19 @@
                 <version>1.7.12</version>
                 <executions>
                     <execution>
-                        <id>l4j-gui</id>
+                        <id>l4j-cmd</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <headerType>gui</headerType>
+                            <headerType>console</headerType>
                             <jar>
                                 ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
                             </jar>
                             <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
                             <classPath>
-                                <mainClass>home.guitar.recorder.gui.RecorderGui</mainClass>
+                                <mainClass>home.guitar.recorder.console.RecorderCmd</mainClass>
                             </classPath>
                             <icon>${project.build.directory}/classes/recorder.ico</icon>
                             <jre>
@@ -65,6 +65,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

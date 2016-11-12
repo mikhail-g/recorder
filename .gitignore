@@ -20,6 +20,6 @@ out/
 
 .gitignore
 .idea/
-*.iml
+recorder.iml
 main/
 test/
