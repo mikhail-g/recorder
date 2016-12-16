@@ -1,4 +1,6 @@
-import recorder.sound.JavaSoundRecorder;
+package console;
+
+import recorder.sound.SoundRecorder;
 
 import java.util.Scanner;
 
@@ -9,14 +11,14 @@ import java.util.Scanner;
  */
 public class ScannerTest {
 
-    public static final String RECORD = "record";
-    public static final String STOP = "stop";
-    public static final String QUITE = "quite";
-    public static final String RECORD_SHORT = "r";
-    public static final String STOP_SHORT = "s";
-    public static final String QUITE_SHORT = "q";
-    public static final String RECORDING_THREAD = "recording";
-    final static JavaSoundRecorder recorder = new JavaSoundRecorder();
+    private static final String RECORD = "record";
+    private static final String STOP = "stop";
+    private static final String QUITE = "quite";
+    private static final String RECORD_SHORT = "r";
+    private static final String STOP_SHORT = "s";
+    private static final String QUITE_SHORT = "q";
+    private static final String RECORDING_THREAD = "recording";
+    private final static SoundRecorder recorder = new SoundRecorder();
     private static Thread recording;
     private static Command record = () -> recording.start();
     private static Command stop = recorder::finish;
