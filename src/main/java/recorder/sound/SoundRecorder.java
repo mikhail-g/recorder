@@ -13,12 +13,12 @@ import java.net.URISyntaxException;
  * A sample program is to demonstrate how to record sound in Java
  * author: www.codejava.net
  */
-public class JavaSoundRecorder implements Runnable {
+public class SoundRecorder implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(JavaSoundRecorder.class);
+    private static final Logger log = LoggerFactory.getLogger(SoundRecorder.class);
     private TargetDataLine inputLine;
 
-    public JavaSoundRecorder() {
+    public SoundRecorder() {
         try {
             inputLine = createTargetDataLine(Configurator.getAudioFormat());
         } catch (LineUnavailableException e) {
@@ -39,6 +39,7 @@ public class JavaSoundRecorder implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         try {
             startCapturing(inputLine, Configurator.getAudioFormat());

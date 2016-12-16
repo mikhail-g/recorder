@@ -23,21 +23,21 @@ import static java.util.Optional.ofNullable;
  */
 public class Configurator {
 
-    public static final String OUTPUT_AUDIO_FORMAT_PROP_PATH = "output.audio.format";
-    public static final String SAMPLE_RATE = "sampleRate";
-    public static final String SAMPLE_SIZE_IN_BITS = "sampleSizeInBits";
-    public static final String CHANNELS = "channels";
-    public static final String SIGNED = "signed";
-    public static final String BIG_ENDIAN = "bigEndian";
-    public static final String OUTPUT_FILE_PROP_PATH = "output.file";
-    public static final String EXTENSION_PROP = "extension";
-    public static final String NAME_PROP = "name";
-    public static final String PATH_PROP = "path";
-    public static final String EXTENSION_SEPARATOR = ".";
-    public static final String EXTENSION_SPLITTER = "\\.";
-    public static final String FILE_NAME_SEPARATOR = "_";
-    public static final String RECORD_NUMBER_FORMAT = "%03d";
-    public static final String FILE_NAME_NUMBER_BASE = "name_19891231_000";
+    private static final String OUTPUT_AUDIO_FORMAT_PROP_PATH = "output.audio.format";
+    private static final String SAMPLE_RATE = "sampleRate";
+    private static final String SAMPLE_SIZE_IN_BITS = "sampleSizeInBits";
+    private static final String CHANNELS = "channels";
+    private static final String SIGNED = "signed";
+    private static final String BIG_ENDIAN = "bigEndian";
+    private static final String OUTPUT_FILE_PROP_PATH = "output.file";
+    private static final String EXTENSION_PROP = "extension";
+    private static final String NAME_PROP = "name";
+    private static final String PATH_PROP = "path";
+    private static final String EXTENSION_SEPARATOR = ".";
+    private static final String EXTENSION_SPLITTER = "\\.";
+    private static final String FILE_NAME_SEPARATOR = "_";
+    private static final String RECORD_NUMBER_FORMAT = "%03d";
+    private static final String FILE_NAME_NUMBER_BASE = "name_19891231_000";
     private static final Logger log = LoggerFactory.getLogger(Configurator.class);
     private static Config conf = ConfigFactory.load();
     private static Config outputFileConfig = conf.getConfig(OUTPUT_FILE_PROP_PATH);
@@ -46,9 +46,24 @@ public class Configurator {
         return new File(getOutputFolder(), getOutputFileFullName());
     }
 
+    public static AudioFileFormat.Type getFileType() {
+        return getFileType(getOutputFileExtension());
+    }
+
+    public static AudioFormat getAudioFormat() {
+        Config conf = ConfigFactory.load();
+        Config audioFormat = conf.getConfig(OUTPUT_AUDIO_FORMAT_PROP_PATH);
+        return new AudioFormat(
+                audioFormat.getInt(SAMPLE_RATE),
+                audioFormat.getInt(SAMPLE_SIZE_IN_BITS),
+                audioFormat.getInt(CHANNELS),
+                audioFormat.getBoolean(SIGNED),
+                audioFormat.getBoolean(BIG_ENDIAN)
+        );
+    }
 
     private static File getOutputFolder() {
-        File dir = new File(outputFileConfig.getString(PATH_PROP));
+        File dir = getOutputFolderUnchecked();
         if (!dir.exists()) {
             boolean isOutputDirCreated = dir.mkdirs();
             log.debug("isOutputDirCreated = {}", isOutputDirCreated);
@@ -56,11 +71,15 @@ public class Configurator {
         return dir;
     }
 
+    protected static File getOutputFolderUnchecked() {
+        return new File(outputFileConfig.getString(PATH_PROP));
+    }
+
     private static String getOutputFileFullName() {
         return String.join(EXTENSION_SEPARATOR, getOutputFileName(), getOutputFileExtension());
     }
 
-    public static String getOutputFileExtension() {
+    private static String getOutputFileExtension() {
         return outputFileConfig.getString(EXTENSION_PROP);
     }
 
@@ -98,24 +117,8 @@ public class Configurator {
         return arr;
     }
 
-    public static AudioFileFormat.Type getFileType() {
-        return getFileType(getOutputFileExtension());
-    }
-
-    public static AudioFileFormat.Type getFileType(String extension) {
+    private static AudioFileFormat.Type getFileType(String extension) {
         return Arrays.stream(AudioSystem.getAudioFileTypes()).filter(type -> type.getExtension()
                 .equalsIgnoreCase(extension)).findFirst().orElseGet(() -> AudioFileFormat.Type.WAVE);
-    }
-
-    public static AudioFormat getAudioFormat() {
-        Config conf = ConfigFactory.load();
-        Config audioFormat = conf.getConfig(OUTPUT_AUDIO_FORMAT_PROP_PATH);
-        return new AudioFormat(
-                audioFormat.getInt(SAMPLE_RATE),
-                audioFormat.getInt(SAMPLE_SIZE_IN_BITS),
-                audioFormat.getInt(CHANNELS),
-                audioFormat.getBoolean(SIGNED),
-                audioFormat.getBoolean(BIG_ENDIAN)
-        );
     }
 }
