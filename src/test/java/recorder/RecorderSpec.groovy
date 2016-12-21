@@ -1,7 +1,9 @@
 package recorder
 
 import base.BaseSpecification
-import recorder.sound.SoundRecorder
+import recorder.sound.RecordTask
+
+import java.lang.reflect.Field
 
 /**
  * Recorder Specification
@@ -9,23 +11,24 @@ import recorder.sound.SoundRecorder
  */
 class RecorderSpec extends BaseSpecification {
 
-    void setup() {
+    def recorder = RecorderImpl.instance
+    def clientMock = Mock(RecordTask)
 
+    void setup() {
+        Field clientField = RecorderImpl.getDeclaredField("recordTask")
+        clientField.setAccessible(true)
+        clientField.set(recorder, clientMock)
     }
 
     void cleanup() {
-
-    }
-
-    def "Init"() {
-        expect:
-//            RecorderImpl.instance.init()
-            def soundMock = Mock(SoundRecorder)
-            soundMock
     }
 
     def "Record"() {
-
+        when:
+            recorder.record()
+        then:
+            1 * clientMock.lineAvailable
+            1 * clientMock.run()
     }
 
     def "Stop"() {

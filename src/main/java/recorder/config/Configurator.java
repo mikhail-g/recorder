@@ -9,7 +9,6 @@ import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -42,7 +41,7 @@ public class Configurator {
     private static Config conf = ConfigFactory.load();
     private static Config outputFileConfig = conf.getConfig(OUTPUT_FILE_PROP_PATH);
 
-    public static File getOutputFile() throws URISyntaxException {
+    public static File getOutputFile() {
         return new File(getOutputFolder(), getOutputFileFullName());
     }
 

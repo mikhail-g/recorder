@@ -23,7 +23,7 @@ class ConfiguratorSpec extends BaseSpecification {
             outputFolder.exists()
         expect: "file is not null and file name matches to the pattern"
             that file, notNullValue()
-            file.name ==~ /\w*_\d*_\d{3}\.\w{2,4}/
+            file.name ==~ /\w*_\d{4,8}_\d{3}\.\w{2,4}/
         cleanup: "delete the output folder after test"
             outputFolder.delete()
     }

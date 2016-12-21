@@ -28,7 +28,6 @@ public class RecorderCmd {
 
     public static void main(String[] args) {
         recorder = RecorderImpl.getInstance();
-        recorder.init();
         log.info(WELCOME_MESSAGE);
         log.info(HELP_MESSAGE);
         Scanner sc = new Scanner(System.in);

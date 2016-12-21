@@ -3,7 +3,7 @@ package recorder.sound
 import base.BaseSpecification
 
 /**
- * Specification for SoundRecorder class
+ * Specification for RecordTaskImpl class
  *
  * Created by Mykhailo on 017 17.12.16.
  */

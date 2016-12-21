@@ -1,7 +1,5 @@
 package console;
 
-import recorder.sound.SoundRecorder;
-
 import java.util.Scanner;
 
 /**
@@ -18,10 +16,10 @@ public class ScannerTest {
     private static final String STOP_SHORT = "s";
     private static final String QUITE_SHORT = "q";
     private static final String RECORDING_THREAD = "recording";
-    private final static SoundRecorder recorder = new SoundRecorder();
+    //    private final static RecordTask recorder = new RecordTask();
     private static Thread recording;
     private static Command record = () -> recording.start();
-    private static Command stop = recorder::finish;
+    //    private static Command stop = recorder::finish;
     private static Command quite = () -> {
         System.out.println("Bye-bye!");
         recording = null;
@@ -32,7 +30,7 @@ public class ScannerTest {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Java Recorder! The first step to creation of best bass guitar tuner ever!");
         System.out.println("Waiting for your commands:\nr - record\ns - stop\nq - quite");
-        recording = new Thread(recorder, RECORDING_THREAD);
+//        recording = new Thread(recorder, RECORDING_THREAD);
         while (true) {
             performAction(sc.nextLine());
         }
@@ -46,7 +44,7 @@ public class ScannerTest {
                 break;
             case STOP:
             case STOP_SHORT:
-                stop.execute();
+//                stop.execute();
                 break;
             case QUITE:
             case QUITE_SHORT:

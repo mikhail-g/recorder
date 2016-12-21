@@ -15,20 +15,19 @@ import java.awt.*;
  */
 public class RecorderGui {
 
-    public static final String PLAYLIST_BUTTON_TEXT = "recorded files";
-    public static final String RECORD_BUTTON_TEXT = "record";
-    public static final String STOP_BUTTON_TEXT = "stop";
+    private static final String PLAYLIST_BUTTON_TEXT = "recorded files";
+    private static final String RECORD_BUTTON_TEXT = "record";
+    private static final String STOP_BUTTON_TEXT = "stop";
     private static final Logger log = LoggerFactory.getLogger(RecorderGui.class);
     private static final String TITLE = "HOT Recorder";
     private static final int FRAME_WIDTH = 300;
     private static final int FRAME_HEIGHT = 150;
     private static Recorder recorder;
 
-    public RecorderGui() {
+    private RecorderGui() {
 
         JFrame guiFrame = initFrame();
         recorder = RecorderImpl.getInstance();
-        recorder.init();
 
         final JPanel recorderPanel = getRecorderPanel();
         final JPanel playListPanel = getPlayListPanel();

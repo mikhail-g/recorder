@@ -7,8 +7,6 @@ package recorder;
  */
 public interface Recorder {
 
-    void init();
-
     void record();
 
     void stop();
