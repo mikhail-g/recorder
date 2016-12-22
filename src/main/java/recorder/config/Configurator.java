@@ -41,7 +41,7 @@ public class Configurator {
     private static Config conf = ConfigFactory.load();
     private static Config outputFileConfig = conf.getConfig(OUTPUT_FILE_PROP_PATH);
 
-    public static File getOutputFile() {
+    public static File getNextOutputFile() {
         return new File(getOutputFolder(), getOutputFileFullName());
     }
 

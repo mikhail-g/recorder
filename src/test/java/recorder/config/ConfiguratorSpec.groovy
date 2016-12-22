@@ -18,7 +18,7 @@ class ConfiguratorSpec extends BaseSpecification {
         expect: "the folder is not exist on startup"
             !outputFolder.exists()
         when: "an output file is queried"
-            def file = Configurator.getOutputFile()
+            def file = Configurator.getNextOutputFile()
         then: "the output folder is created on the first query to the output file"
             outputFolder.exists()
         expect: "file is not null and file name matches to the pattern"

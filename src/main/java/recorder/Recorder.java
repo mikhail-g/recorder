@@ -9,6 +9,8 @@ public interface Recorder {
 
     void record();
 
+    void pause();
+
     void stop();
 
     void quit();

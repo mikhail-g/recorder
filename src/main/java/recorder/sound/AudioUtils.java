@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * Class represents communications with with audio system
@@ -17,17 +16,16 @@ public class AudioUtils {
 
     private static final Logger log = LoggerFactory.getLogger(AudioUtils.class);
 
-    static void startCapturing(TargetDataLine targetDataLine, AudioFormat audioFormat) throws LineUnavailableException {
-        targetDataLine.open(audioFormat);
-        log.debug("Start capturing...");
-        targetDataLine.start();
-    }
-
-    static void startRecording(TargetDataLine targetDataLine, AudioFileFormat.Type fileType, File outputFile)
-            throws IOException, URISyntaxException {
-        AudioInputStream ais = new AudioInputStream(targetDataLine);
-        log.debug("Start recording...");
-        AudioSystem.write(ais, fileType, outputFile);
+    static void startRecording(TargetDataLine line, AudioFileFormat.Type fileType, File outputFile) {
+        AudioInputStream ais = new AudioInputStream(line);
+        try {
+            log.debug("Start capturing...");
+            line.start();
+            log.debug("Start recording...");
+            AudioSystem.write(ais, fileType, outputFile);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static TargetDataLine createTargetDataLine(AudioFormat audioFormat) {
@@ -36,6 +34,7 @@ public class AudioUtils {
         TargetDataLine dataLine = null;
         try {
             dataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
+            dataLine.open(audioFormat);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }

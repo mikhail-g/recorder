@@ -7,7 +7,6 @@ import recorder.sound.AudioUtils;
 import recorder.sound.RecordTask;
 
 import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.TargetDataLine;
 import java.io.File;
 
@@ -19,33 +18,32 @@ import java.io.File;
 public class RecorderImpl implements Recorder {
 
     private static final Logger log = LoggerFactory.getLogger(RecorderImpl.class);
-
     private static final String RECORDING_THREAD = "recording";
     private static final String BYE_MESSAGE = "Bye-bye!";
     private static final Thread NULL_THREAD = null;
     private static final int POSITIVE_EXIT_STATUS = 0;
-    private static Status status;
-    private static Thread recording;
-
+    private Status status;
+    private Thread recording;
     private TargetDataLine inputLine;
-    private RecordTask recordTask;
+    private AudioFileFormat.Type fileType;
+    private File outputFile;
+
+    private RecorderImpl(TargetDataLine inputLine) {
+        this.inputLine = inputLine;
+        fileType = Configurator.getFileType();
+        outputFile = Configurator.getNextOutputFile();
+        this.status = Status.READY;
+    }
 
     public static Recorder getInstance() {
-        RecorderImpl recorder = new RecorderImpl();
-
-        recorder.inputLine = AudioUtils.createTargetDataLine(Configurator.getAudioFormat());
-        AudioFormat audioFormat = Configurator.getAudioFormat();
-        AudioFileFormat.Type fileType = Configurator.getFileType();
-        File outputFile = Configurator.getOutputFile();
-
-        recorder.recordTask = RecordTask.getInstance(recorder.inputLine, audioFormat, fileType, outputFile);
-        status = Status.READY;
-        return recorder;
+        TargetDataLine inputLine = AudioUtils.createTargetDataLine(Configurator.getAudioFormat());
+        return new RecorderImpl(inputLine);
     }
 
     @Override
     public void record() {
         if (!inputLine.isRunning()) {
+            RecordTask recordTask = RecordTask.getInstance(inputLine, fileType, outputFile);
             recording = new Thread(recordTask, RECORDING_THREAD);
             recording.start();
             status = Status.RECORDING;
@@ -53,10 +51,16 @@ public class RecorderImpl implements Recorder {
     }
 
     @Override
-    public void stop() {
-        status = Status.SAVING;
+    public void pause() {
         inputLine.stop();
-        inputLine.close();
+        status = Status.PAUSE;
+    }
+
+    @Override
+    public void stop() {
+        inputLine.stop();
+//        inputLine.drain();
+        outputFile = Configurator.getNextOutputFile();
         log.debug("Finished");
         status = Status.READY;
     }
@@ -65,6 +69,7 @@ public class RecorderImpl implements Recorder {
     public void quit() {
         status = Status.CLOSING;
         log.info(BYE_MESSAGE);
+        inputLine.close();
         recording = NULL_THREAD;
         System.exit(POSITIVE_EXIT_STATUS);
     }
@@ -77,7 +82,7 @@ public class RecorderImpl implements Recorder {
     private enum Status implements Recorder.Status {
         READY("Ready to record"),
         RECORDING("Recording is in progress"),
-        SAVING("Record is saving"),
+        PAUSE("Record is on pause"),
         CLOSING("Recording is closing"),
         ERROR("An error is occurred");
 
